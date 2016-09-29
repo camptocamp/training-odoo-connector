@@ -15,6 +15,7 @@ Didactic addon used in Odoo Connector trainings.
  },
  'data': [
      'views/odoo_backend_views.xml',
+     'views/res_partner_views.xml',
   ],
  'images': [],
  'demo': [],

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <record id="view_partner_form" model="ir.ui.view">
+      <field name="name">res.partner.form</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="connector.view_partner_connector_form" />
+      <field name="arch" type="xml">
+        <page name="connector" position="attributes">
+          <attribute name="invisible">0</attribute>
+        </page>
+        <page name="connector" position="inside">
+          <group string="Odoo Bindings">
+            <field name="odoo_bind_ids" nolabel="1"/>
+          </group>
+        </page>
+      </field>
+    </record>
+
+    <record id="view_odoo_res_partner_form" model="ir.ui.view">
+      <field name="name">odoo.res.partner.form</field>
+      <field name="model">odoo.res.partner</field>
+      <field name="arch" type="xml">
+        <form string="Odoo Partner">
+          <group>
+            <field name="backend_id"/>
+            <field name="external_id"/>
+          </group>
+        </form>
+      </field>
+    </record>
+
+    <record id="view_odoo_res_partner_tree" model="ir.ui.view">
+      <field name="name">odoo.res.partner.tree</field>
+      <field name="model">odoo.res.partner</field>
+      <field name="arch" type="xml">
+        <tree string="Odoo Partner">
+          <field name="backend_id"/>
+          <field name="external_id"/>
+        </tree>
+      </field>
+    </record>
+
+  </data>
+</openerp>
