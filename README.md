@@ -26,6 +26,10 @@ For development:
 
     $ bin/start_openerp -d <db_name> 
 
+With the jobrunner:
+
+    $ ODOO_CONNECTOR_CHANNELS=root:2 bin/start_openerp -d <db_name> --load=web,connector
+
 Run the tests:
 
     $ bin/test_openerp -d <db_name> -u <module_to_test>
