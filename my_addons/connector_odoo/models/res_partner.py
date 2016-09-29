@@ -11,7 +11,7 @@ _logger = logging.getLogger(__name__)
 @on_record_create(model_names=['res.partner'])
 @on_record_write(model_names=['res.partner'])
 def on_change_export_partner(session, model_name, record_id, vals):
-    export_partner(session, model_name, record_id)
+    export_partner.delay(session, model_name, record_id)
 
 
 @job
