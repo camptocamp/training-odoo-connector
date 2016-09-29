@@ -7,6 +7,7 @@ from openerp.addons.connector.connector import ConnectorEnvironment, Binder
 from openerp.addons.connector.queue.job import job
 from openerp.addons.connector.event import on_record_create, on_record_write
 from openerp.addons.connector.unit.mapper import ExportMapper, mapping
+from openerp.addons.connector.unit.synchronizer import Exporter
 
 from ..backend import odoo
 from ..unit.backend_adapter import OdooBackendAdapter
@@ -70,17 +71,8 @@ def export_partner(session, model_name, record_id):
         session,
         model_name
     )
-    binder = connector_env.get_connector_unit(Binder)
-    adapter = connector_env.get_connector_unit(OdooBackendAdapter)
-    mapper = connector_env.get_connector_unit(ExportMapper)
-
-    map_record = mapper.map_record(binding)
-    external_id = binder.to_backend(binding)
-    if external_id:
-        adapter.write(external_id, map_record.values())
-    else:
-        external_id = adapter.create(map_record.values(for_create=True))
-    binder.bind(external_id, binding)
+    exporter = connector_env.get_connector_unit(Exporter)
+    exporter.run(binding.id)
 
 
 @odoo
@@ -110,3 +102,23 @@ class PartnerMapper(ExportMapper):
         if not record.function:
             return {}
         return {'function': record.function.upper()}
+
+
+@odoo
+class PartnerExporter(Exporter):
+    _model_name = 'odoo.res.partner'
+
+    def run(self, binding_id):
+        binding = self.model.browse(binding_id)
+
+        adapter = self.unit_for(OdooBackendAdapter)
+        mapper = self.unit_for(ExportMapper)
+
+        map_record = mapper.map_record(binding)
+        external_id = self.binder.to_backend(binding)
+        if external_id:
+            adapter.write(external_id, map_record.values())
+        else:
+            values = map_record.values(for_create=True)
+            external_id = adapter.create(values)
+        self.binder.bind(external_id, binding)
