@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <record id="view_odoo_backend_form" model="ir.ui.view">
+      <field name="name">odoo.backend.form</field>
+      <field name="model">odoo.backend</field>
+      <field name="arch" type="xml">
+        <form string="Odoo Backend">
+          <sheet>
+            <label for="name" class="oe_edit_only"/>
+            <h1>
+              <field name="name" class="oe_inline" />
+            </h1>
+            <group name="odoo" string="Odoo Configuration">
+              <field name="version" colspan="4"/>
+              <field name="host"/>
+              <field name="port"/>
+              <field name="username"/>
+              <field name="password" password="1"/>
+              <field name="database"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="view_odoo_backend_tree" model="ir.ui.view">
+      <field name="name">odoo.backend.tree</field>
+      <field name="model">odoo.backend</field>
+      <field name="arch" type="xml">
+        <tree string="Odoo Backend">
+          <field name="name"/>
+          <field name="host"/>
+          <field name="database"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="action_odoo_backend" model="ir.actions.act_window">
+      <field name="name">Odoo Backends</field>
+      <field name="res_model">odoo.backend</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="view_odoo_backend_tree"/>
+    </record>
+
+    <menuitem id="menu_odoo_root"
+      parent="connector.menu_connector_root"
+      name="Odoo"
+      sequence="10"
+      groups="connector.group_connector_manager"/>
+
+    <menuitem id="menu_odoo_backend"
+      name="Backends"
+      parent="menu_odoo_root"
+      action="action_odoo_backend"/>
+  </data>
+</openerp>

@@ -13,7 +13,9 @@ Didactic addon used in Odoo Connector trainings.
  'external_dependencies': {
      'python': ['odoorpc'],
  },
- 'data': [],
+ 'data': [
+     'views/odoo_backend_views.xml',
+  ],
  'images': [],
  'demo': [],
  'application': True,
